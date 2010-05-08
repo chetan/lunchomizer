@@ -1,3 +1,4 @@
 config/database.yml
+config/gmaps_api_key.yml
 config/initializers/geokit_config.rb
 log/*
