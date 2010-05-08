@@ -1,10 +1,7 @@
-<html>
-<head>
-	<title>lunch-o-mizer!</title>
-</head>
-<body>
-	
-	<h1>lunch-o-mizer!</h1>
-	
-</body>
-</html>
+<h1>the midtown lunch-o-mizer!</h1>
+
+<h2>close: <%= @close.name %> (<%= get_address(@close) %>)</h2>
+
+<h2>near: <%= @near.name %> (<%= get_address(@near) %>)</h2>
+
+<h2>far: <%= @far.name %> (<%= get_address(@far) %>)</h2>
