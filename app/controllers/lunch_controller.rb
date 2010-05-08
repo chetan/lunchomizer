@@ -36,7 +36,19 @@ class LunchController < ApplicationController
         @close = close[ActiveSupport::SecureRandom.random_number(close.size)]
         @near  = near[ActiveSupport::SecureRandom.random_number(near.size)]
         @far   = far[ActiveSupport::SecureRandom.random_number(far.size)]
-
+        
+        @close_map = create_map(@close, loc, "close_map", 17)
+        @near_map = create_map(@near, loc, "near_map", 16)
+        @far_map = create_map(@far, loc, "far_map", 15)
+    end
+    
+    def create_map(loc, origin, div_name, zoom)        
+        map = Mapstraction.new(div_name, :google, div_name)
+        map.control_init(:small => true)
+        map.center_zoom_init([origin.lat,origin.lng], zoom)
+        map.marker_init(Marker.new([origin.lat,origin.lng], :label => "You!", :info_bubble => "You!"))
+        map.marker_init(Marker.new([loc.lat,loc.lng], :label => loc.name, :info_bubble => (loc.name + "\n" + loc.get_address).gsub("\n", "<br/>")))
+        map
     end
     
 end

@@ -1,7 +1,10 @@
-/* @override http://localhost:3000/stylesheets/lunch.css?1273332395 */
 
 h1 {
 	font-size: 3em;
 	padding-top: 80px;
 	padding-bottom:  20px;
+}
+
+#close_map, #near_map, #far_map {
+	display: none;
 }

@@ -2,13 +2,36 @@
 <head>
 	<title>the midtown lunch-o-mizer!</title>
 	
-	<%= stylesheet_link_tag "blueprint/screen", :media => "screen, projection" %>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+	
+	<%= stylesheet_link_tag "960", :media => "screen, projection" %>
+	<%= stylesheet_link_tag "reset", :media => "screen, projection" %>
+	<%= stylesheet_link_tag "text", :media => "screen, projection" %>
 	<%= stylesheet_link_tag "lunch" %>
 	
+	<%= Mapstraction.header(:google) %>
+	
+	
+	
+	<%= @close_map.to_html %>
+	<%= @near_map.to_html %>
+	<%= @far_map.to_html %>
+
 </head>
 <body>
 
+<div class="container_12">
+
+<div class="grid_2">&nbsp;</div>
+
+<div class="grid_8">
+	
+	<h1>the midtown lunch-o-mizer!</h1>
+	
 <%= yield %>
+</div>
+
+<div class="grid_2">&nbsp;</div>
 
 </body>
 </html>

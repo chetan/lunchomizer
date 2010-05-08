@@ -1,7 +1,14 @@
-<h1>the midtown lunch-o-mizer!</h1>
 
-<h2>close: <%= @close.name %> (<%= get_address(@close) %>)</h2>
+<!-- close_map.autoCenterAndZoom(); -->
+
+<h2>close: <%= @close.name %> (<%= get_address(@close) %>)</h2> 
+    <a class="toggle" href="#" onclick="$('#close_map').toggle(); close_map.getMap().checkResize(); <%= @close_map.recenter_html() %>">show map</a>
+<%= @close_map.div(:width => 600, :height => 400) %>
 
 <h2>near: <%= @near.name %> (<%= get_address(@near) %>)</h2>
+    <a class="toggle" href="#" onclick="$('#near_map').toggle(); near_map.getMap().checkResize(); <%= @near_map.recenter_html() %>">show map</a>
+<%= @near_map.div(:width => 600, :height => 400) %>
 
 <h2>far: <%= @far.name %> (<%= get_address(@far) %>)</h2>
+    <a class="toggle" href="#" onclick="$('#far_map').toggle(); far_map.getMap().checkResize(); <%= @far_map.recenter_html() %>">show map</a>
+<%= @far_map.div(:width => 600, :height => 400) %>
