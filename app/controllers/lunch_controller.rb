@@ -16,7 +16,6 @@ class LunchController < ApplicationController
         # p session[:geo_location]
         
         loc = session[:geo_location]
-        srand Time.new.to_i
                 
         close = Restaurant.find_within(CLOSE, :origin => loc, :conditions => {:closed => 0})
         near  = Restaurant.find_within(NEAR, :origin => loc, :conditions => {:closed => 0})
@@ -34,9 +33,9 @@ class LunchController < ApplicationController
         puts near.size
         puts far.size
         
-        @close = close[rand(close.size)]
-        @near  = near[rand(near.size)]
-        @far   = far[rand(far.size)]
+        @close = close[ActiveSupport::SecureRandom.random_number(close.size)]
+        @near  = near[ActiveSupport::SecureRandom.random_number(near.size)]
+        @far   = far[ActiveSupport::SecureRandom.random_number(far.size)]
 
     end
     
