@@ -245,6 +245,10 @@ module Ym4r
         @global_init << variable.declare(name)
       end
       
+      def recenter_html
+          @init_begin
+      end
+      
       #Outputs the initialization code for the map. By default, it outputs the script tags, performs the initialization in response to the onload event of the window and makes the map globally available. You can pass the <tt>:full => true</tt> option to setup fullscreen for the map.
       def to_html(options = {})
         no_load = options[:no_load]
