@@ -43,7 +43,7 @@ window.onload = addCodeToFunction(window.onload,function() {
 
     var request = {
         origin: origin,
-        destination: dest, //"710 3rd Ave",
+        destination: dest,
         travelMode: google.maps.DirectionsTravelMode.WALKING
     };
     #{@name}_directionsService.route(request, function(response, status) {

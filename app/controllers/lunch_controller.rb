@@ -16,7 +16,6 @@ class LunchController < ApplicationController
     def index
         
         session[:geo_location] = Geokit::Geocoders::GoogleGeocoder.geocode('450 Lexington Avenue, New York, NY 10017') if not session[:geo_location]
-        # p session[:geo_location]
         
         loc = session[:geo_location]
                 
@@ -47,8 +46,8 @@ class LunchController < ApplicationController
     
     def create_map(loc, origin, div_name, zoom)        
         map = Map.new(div_name, zoom)
-        map.route(Marker.new([origin.lat,origin.lng], :label => "You!", :info_bubble => "You!"),
-                  Marker.new([loc.lat,loc.lng], :label => loc.name, :info_bubble => (loc.name + "\n" + loc.get_address).gsub("\n", "<br/>")))
+        map.route(Marker.new(origin, :label => "You!", :info_bubble => "You!"),
+                  Marker.new(loc, :label => loc.name, :info_bubble => (loc.name + "\n" + loc.get_address).gsub("\n", "<br/>")))
         map
     end
     

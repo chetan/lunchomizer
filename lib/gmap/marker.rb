@@ -3,7 +3,7 @@ module GMap
     
     class Marker
         
-        attr_accessor :lat, :lng, :label, :bubble
+        attr_accessor :lat, :lng, :address, :label, :bubble
         
         def initialize(point, options = {})
             
@@ -14,9 +14,11 @@ module GMap
                 @lat = point[0]
                 @lng = point[1]
                 
-            elsif point.respond_to(:lat) and point.respond_to(:lng) then
+            elsif point.respond_to? :lat and point.respond_to? :lng then
                 @lat = point.lat
                 @lng = point.lng
+                @address = point.address if point.respond_to? :address
+                
             else
                 raise "Invalid Lat & Long type"
             end
@@ -24,7 +26,11 @@ module GMap
         end
         
         def to_js
-            "new google.maps.LatLng(#{@lat}, #{@lng})"
+            if @address and not @address.empty? then
+                "\"#{@address}\""
+            else
+                "new google.maps.LatLng(#{@lat}, #{@lng})"
+            end
         end
         
     end
