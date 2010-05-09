@@ -3,7 +3,7 @@ module GMap
     
     class Marker
         
-        attr_accessor :lat, :lng, :address, :label, :bubble
+        attr_accessor :lat, :lng, :address, :zip, :label, :bubble
         
         def initialize(point, options = {})
             
@@ -18,6 +18,7 @@ module GMap
                 @lat = point.lat
                 @lng = point.lng
                 @address = point.address if point.respond_to? :address
+                @zip = point.zip if point.respond_to? :zip
                 
             else
                 raise "Invalid Lat & Long type"
@@ -27,10 +28,34 @@ module GMap
         
         def to_js
             if @address and not @address.empty? then
-                "\"#{@address}\""
+                "\"#{@address}, #{@zip}\""
             else
-                "new google.maps.LatLng(#{@lat}, #{@lng})"
+                to_latlng()
             end
+        end
+        
+        def to_latlng
+            "new google.maps.LatLng(#{@lat}, #{@lng})"
+        end
+        
+        def marker_js(map, pos)
+            js = <<-EOF
+               
+var contentString = "#{@bubble}";
+var infowindow = new google.maps.InfoWindow({ content: contentString });
+
+var marker = new google.maps.Marker({
+    position: #{pos},
+    map: #{map},
+    title: "#{@label}"
+});
+
+google.maps.event.addListener(marker, 'click', function() {
+  infowindow.open(#{map}, marker);
+});
+
+EOF
+            
         end
         
     end

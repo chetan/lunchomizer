@@ -1,14 +1,59 @@
 
-<!-- close_map.autoCenterAndZoom(); -->
+<html>
+<head>
+	<title>the midtown lunch-o-mizer!</title>
+	
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+	
+	<%= stylesheet_link_tag "960", :media => "screen, projection" %>
+	<%= stylesheet_link_tag "reset", :media => "screen, projection" %>
+	<%= stylesheet_link_tag "text", :media => "screen, projection" %>
+	<%= stylesheet_link_tag "lunch" %>
+	
+	<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+	
+	<script type="text/javascript">
+    	function addCodeToFunction(func, code) {
+            if (func == undefined)
+        	    return code;
+            else {
+        	    return function(){
+        	        func();
+        	        code();
+        	    }
+            }
+        }
+    </script>
+	
+	<%= @close_map.header_html %>
+	<%= @near_map.header_html %>
+	<%= @far_map.header_html %>
 
-<h2>close: <%= @close.name %> (<%= get_address(@close) %>)</h2> 
-    <a class="toggle" href="#" onclick="$('#close_map').toggle(); <%= @close_map.recenter_html() %>; ">show map</a>
-<div id="close_map" style="width:600px;height:400px"></div>
+</head>
+<body>
 
-<h2>near: <%= @near.name %> (<%= get_address(@near) %>)</h2>
-    <a class="toggle" href="#" onclick="$('#near_map').toggle(); <%= @near_map.recenter_html() %>">show map</a>
-<div id="near_map" style="width:600px;height:400px"></div>
+<div class="container_12">
 
-<h2>far: <%= @far.name %> (<%= get_address(@far) %>)</h2>
-    <a class="toggle" href="#" onclick="$('#far_map').toggle(); <%= @far_map.recenter_html() %>">show map</a>
-<div id="far_map" style="width:600px;height:400px"></div>
+<div class="grid_2">&nbsp;</div>
+
+<div class="grid_10">
+	
+	<h1>the midtown lunch-o-mizer!</h1>
+	
+	<form id="location" method="POST">
+	    <input type="text" name="address" value="">
+    </form>
+	
+    <h2>close: <%= @close.name %> (<%= get_address(@close) %>) <a class="toggle" href="#" onclick="$('#close_map').toggle(); <%= @close_map.recenter_html() %>; "><%= image_tag("map_20x20.png", :size => "20x20", :alt => "View map") %></a></h2> 
+    <div id="close_map" style="width:600px;height:400px"></div>
+
+    <h2>near: <%= @near.name %> (<%= get_address(@near) %>) <a class="toggle" href="#" onclick="$('#near_map').toggle(); <%= @near_map.recenter_html() %>"><%= image_tag("map_20x20.png", :size => "20x20", :alt => "View map") %></a></h2>
+    <div id="near_map" style="width:600px;height:400px"></div>
+
+    <h2>far: <%= @far.name %> (<%= get_address(@far) %>) <a class="toggle" href="#" onclick="$('#far_map').toggle(); <%= @far_map.recenter_html() %>"><%= image_tag("map_20x20.png", :size => "20x20", :alt => "View map") %></a></h2>    
+    <div id="far_map" style="width:600px;height:400px"></div>
+
+</div>
+
+</body>
+</html>

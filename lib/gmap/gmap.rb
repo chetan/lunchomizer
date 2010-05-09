@@ -23,20 +23,20 @@ module GMap
             html = <<-EOF
 <script type="text/javascript">
 var #{@name};
-var #{@name}_directionsService;
 window.onload = addCodeToFunction(window.onload,function() {
     
     var origin = #{@origin.to_js};
     var dest = #{@dest.to_js};
     
-    var myOptions = {
+    var mapOpts = {
       zoom:16,
       mapTypeId: google.maps.MapTypeId.ROADMAP,
       center: origin
     }
-    #{@name} = new google.maps.Map(document.getElementById("#{@name}"), myOptions);
-
-    #{@name}_directionsService = new google.maps.DirectionsService();
+    #{@name} = new google.maps.Map(document.getElementById("#{@name}"), mapOpts);
+    
+    
+    var directionsService = new google.maps.DirectionsService();
     var directionsDisplay = new google.maps.DirectionsRenderer();
 
     directionsDisplay.setMap(#{@name});
@@ -46,9 +46,12 @@ window.onload = addCodeToFunction(window.onload,function() {
         destination: dest,
         travelMode: google.maps.DirectionsTravelMode.WALKING
     };
-    #{@name}_directionsService.route(request, function(response, status) {
+    directionsService.route(request, function(response, status) {
       if (status == google.maps.DirectionsStatus.OK) {
         directionsDisplay.setDirections(response);
+        
+        #{@origin.marker_js(@name, "response.routes[0].legs[0].start_location")}
+        #{@dest.marker_js(@name, "response.routes[0].legs[0].end_location")}
       }
     });
 

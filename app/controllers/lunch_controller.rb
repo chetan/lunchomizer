@@ -8,8 +8,6 @@ include GMap
 
 class LunchController < ApplicationController
     
-    layout "standard"
-    
     include Geokit::IpGeocodeLookup
     geocode_ip_address
    
