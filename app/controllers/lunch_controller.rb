@@ -3,6 +3,9 @@ CLOSE = 0.1
 NEAR  = 0.25
 FAR   = 0.45
 
+require 'gmap'
+include GMap
+
 class LunchController < ApplicationController
     
     layout "standard"
@@ -43,11 +46,9 @@ class LunchController < ApplicationController
     end
     
     def create_map(loc, origin, div_name, zoom)        
-        map = Mapstraction.new(div_name, :google, div_name)
-        map.control_init(:small => true)
-        map.center_zoom_init([origin.lat,origin.lng], zoom)
-        map.marker_init(Marker.new([origin.lat,origin.lng], :label => "You!", :info_bubble => "You!"))
-        map.marker_init(Marker.new([loc.lat,loc.lng], :label => loc.name, :info_bubble => (loc.name + "\n" + loc.get_address).gsub("\n", "<br/>")))
+        map = Map.new(div_name, zoom)
+        map.route(Marker.new([origin.lat,origin.lng], :label => "You!", :info_bubble => "You!"),
+                  Marker.new([loc.lat,loc.lng], :label => loc.name, :info_bubble => (loc.name + "\n" + loc.get_address).gsub("\n", "<br/>")))
         map
     end
     
