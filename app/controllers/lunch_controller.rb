@@ -9,13 +9,29 @@ include GMap
 class LunchController < ApplicationController
     
     include Geokit::IpGeocodeLookup
-    geocode_ip_address
    
     def index
         
-        session[:geo_location] = Geokit::Geocoders::GoogleGeocoder.geocode('450 Lexington Avenue, New York, NY 10017') if not session[:geo_location]
+        if params[:address] then
+            # use given address
+            session[:address] = params[:address]
+            session[:geo_location] = Geokit::Geocoders::GoogleGeocoder.geocode(params[:address]) 
+            
+        elsif not session[:geo_location] then
+            # init from IP
+            store_ip_location
+            session[:address] = Geokit::Geocoders::GoogleGeocoder.reverse_geocode(session[:geo_location])
+            
+        end
         
+        @address = session[:address]        
         loc = session[:geo_location]
+        
+        #session[:geo_location] = Geokit::Geocoders::GoogleGeocoder.geocode('450 Lexington Avenue, New York, NY 10017') 
+        
+        p loc
+        
+        return if not loc
                 
         close = Restaurant.find_within(CLOSE, :origin => loc, :conditions => {:closed => 0})
         near  = Restaurant.find_within(NEAR, :origin => loc, :conditions => {:closed => 0})
@@ -29,17 +45,15 @@ class LunchController < ApplicationController
         far.delete_if { |f| close.map{|c|c.name}.include? f.name }
         far.delete_if { |f| near.map{|n|n.name}.include? f.name }
         
-        puts close.size
-        puts near.size
-        puts far.size
-        
+        # random picks
         @close = close[ActiveSupport::SecureRandom.random_number(close.size)]
         @near  = near[ActiveSupport::SecureRandom.random_number(near.size)]
         @far   = far[ActiveSupport::SecureRandom.random_number(far.size)]
         
-        @close_map = create_map(@close, loc, "close_map", 17)
-        @near_map = create_map(@near, loc, "near_map", 16)
-        @far_map = create_map(@far, loc, "far_map", 15)
+        # create maps
+        @close_map = create_map(@close, loc, "close_map", 17) if @close
+        @near_map = create_map(@near, loc, "near_map", 16) if @near
+        @far_map = create_map(@far, loc, "far_map", 15) if @far
     end
     
     def create_map(loc, origin, div_name, zoom)        
