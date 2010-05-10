@@ -1,0 +1,13 @@
+--- 
+pid: tmp/pids/thin.pid
+wait: 30
+timeout: 30
+log: log/thin.log
+max_conns: 1024
+require: []
+
+environment: production
+max_persistent_conns: 512
+servers: 5
+daemonize: true
+socket: /tmp/thin.lunchomizer.sock
