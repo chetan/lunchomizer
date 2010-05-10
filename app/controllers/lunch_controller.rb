@@ -12,10 +12,10 @@ class LunchController < ApplicationController
    
     def index
         
-        if params[:address] then
+        if params[:address] and not params[:address].strip.empty? then
             # use given address
-            addy = params[:address]
-            if addy !~ /,/ then
+            addy = params[:address].strip
+            if addy !~ /,/ and addy !~ /^\d+$/ then
                 addy += ", New York, NY"
             end
             session[:address] = addy
