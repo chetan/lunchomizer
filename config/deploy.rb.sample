@@ -48,7 +48,7 @@ namespace :db do
     db_config = ERB.new <<-EOF
     base: &base
       adapter: mysql
-      socket: /tmp/mysql.sock
+      socket: /var/run/mysqld/mysqld.sock
       username: foo
       password: bar
 
