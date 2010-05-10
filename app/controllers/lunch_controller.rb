@@ -22,7 +22,7 @@ class LunchController < ApplicationController
             store_ip_location
             if session[:geo_location] then
                 rev = Geokit::Geocoders::GoogleGeocoder.reverse_geocode(session[:geo_location])
-                session[:address] = rev.street_address if rev
+                session[:address] = rev.full_address if rev
             end
             
         end
