@@ -1,0 +1,119 @@
+
+require 'erb'
+
+set :application, "lunchomizer"
+
+set :repository,  "git@github.com:chetan/lunchomizer.git"
+set :local_repository, "."
+
+set :scm, :git
+set :branch, "master"
+set :deploy_via, :remote_cache
+
+default_run_options[:pty] = true
+
+set :deploy_to, "/var/www/capistrano/lunchomizer"
+
+set :user, "foobar"
+set :appserver, "#{user}@foo.example.com"
+
+role :web, appserver
+role :app, appserver
+role :db,  appserver, :primary => true
+
+namespace :deploy do
+  %w(start stop restart).each do |action| 
+     desc "#{action} the Thin processes"  
+     task action.to_sym do
+       find_and_execute_task("thin:#{action}")
+    end
+  end 
+end
+
+namespace :thin do  
+  %w(start stop restart).each do |action| 
+  desc "#{action} the app's Thin Cluster"  
+    task action.to_sym, :roles => :app do  
+      run "thin #{action} -c #{deploy_to}/current -C #{deploy_to}/current/config/thin.yml" 
+    end
+  end
+end
+
+before "deploy:setup", :db
+after "deploy:update_code", "db:symlink" 
+
+namespace :db do
+  desc "Create database yaml in shared path" 
+  task :default do
+    db_config = ERB.new <<-EOF
+    base: &base
+      adapter: mysql
+      socket: /tmp/mysql.sock
+      username: foo
+      password: bar
+
+    development:
+      database: #{application}_development
+      <<: *base
+
+    test:
+      database: #{application}_test
+      <<: *base
+
+    production:
+      database: #{application}
+      <<: *base
+    EOF
+
+    run "mkdir -p #{shared_path}/config" 
+    put db_config.result, "#{shared_path}/config/database.yml" 
+  end
+
+  desc "Make symlink for database yaml" 
+  task :symlink do
+    run "ln -nfs #{shared_path}/config/database.yml #{release_path}/config/database.yml" 
+  end
+end
+
+
+
+before "deploy:setup", :geokit
+after "deploy:update_code", "geokit:symlink" 
+
+namespace :geokit do
+  desc "Create geokit config in shared path" 
+  task :default do
+    geokit_config = ERB.new <<-EOF
+    if defined? Geokit
+
+    	Geokit::default_units = :miles
+    	Geokit::default_formula = :sphere
+
+    	Geokit::Geocoders::request_timeout = 3
+
+    	Geokit::Geocoders::proxy_addr = nil
+    	Geokit::Geocoders::proxy_port = nil
+    	Geokit::Geocoders::proxy_user = nil
+    	Geokit::Geocoders::proxy_pass = nil
+
+    	Geokit::Geocoders::yahoo = 'REPLACE_WITH_YOUR_YAHOO_KEY'
+    	Geokit::Geocoders::google = 'REPLACE_WITH_YOUR_GOOGLE_KEY'
+
+    	Geokit::Geocoders::geocoder_us = false 
+    	Geokit::Geocoders::geocoder_ca = false
+
+    	Geokit::Geocoders::provider_order = [:google,:us]
+    	Geokit::Geocoders::ip_provider_order = [:geo_plugin,:ip]
+
+    end
+    EOF
+
+    run "mkdir -p #{shared_path}/config" 
+    put geokit_config.result, "#{shared_path}/config/geokit_config.rb" 
+  end
+
+  desc "Make symlink for geokit config" 
+  task :symlink do
+    run "ln -nfs #{shared_path}/config/geokit_config.rb #{release_path}/config/initializers/geokit_config.rb" 
+  end
+end

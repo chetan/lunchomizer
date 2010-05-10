@@ -1,4 +1,5 @@
 config/database.yml
+config/deploy.rb
 config/*map*.yml
 config/initializers/geokit_config.rb
 log/*
