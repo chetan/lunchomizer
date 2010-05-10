@@ -20,7 +20,7 @@ class LunchController < ApplicationController
         elsif not session[:geo_location] then
             # init from IP
             store_ip_location
-            session[:address] = Geokit::Geocoders::GoogleGeocoder.reverse_geocode(session[:geo_location])
+            session[:address] = Geokit::Geocoders::GoogleGeocoder.reverse_geocode(session[:geo_location]) if session[:geo_location]
             
         end
         
