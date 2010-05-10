@@ -14,8 +14,12 @@ class LunchController < ApplicationController
         
         if params[:address] then
             # use given address
-            session[:address] = params[:address]
-            session[:geo_location] = Geokit::Geocoders::GoogleGeocoder.geocode(params[:address]) 
+            addy = params[:address]
+            if addy !~ /,/ then
+                addy += ", New York, NY"
+            end
+            session[:address] = addy
+            session[:geo_location] = Geokit::Geocoders::GoogleGeocoder.geocode(addy) 
             
         elsif not session[:geo_location] then
             # init from IP
