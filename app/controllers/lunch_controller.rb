@@ -6,10 +6,14 @@ FAR   = 0.45
 require 'gmap'
 include GMap
 
+ADDRESS = 1
+IP = 2
+HTML5 = 3
+
 class LunchController < ApplicationController
     
     include Geokit::IpGeocodeLookup
-   
+    
     def index
         
         if params[:address] and not params[:address].strip.empty? then
@@ -18,11 +22,19 @@ class LunchController < ApplicationController
             if addy !~ /,/ and addy !~ /^\d+$/ then
                 addy += ", New York, NY"
             end
+            session[:source] = ADDRESS
             session[:address] = addy
-            session[:geo_location] = Geokit::Geocoders::GoogleGeocoder.geocode(addy) 
+            session[:geo_location] = Geokit::Geocoders::GoogleGeocoder.geocode(addy)
+            
+        elsif params[:lat] and not params[:lat].strip.empty? then
+            session[:source] = HTML5
+            session[:geo_location] = Geokit::LatLng.new(params[:lat], params[:lng])
+            rev = Geokit::Geocoders::GoogleGeocoder.reverse_geocode(session[:geo_location])
+            session[:address] = rev.full_address if rev
             
         elsif not session[:geo_location] then
             # init from IP
+            session[:source] = IP
             store_ip_location
             if session[:geo_location] then
                 rev = Geokit::Geocoders::GoogleGeocoder.reverse_geocode(session[:geo_location])
@@ -31,12 +43,13 @@ class LunchController < ApplicationController
             
         end
         
+        @source = session[:source]
         @address = session[:address]        
         loc = session[:geo_location]
         
         #session[:geo_location] = Geokit::Geocoders::GoogleGeocoder.geocode('450 Lexington Avenue, New York, NY 10017') 
         
-        p loc
+        #p loc
         
         return if not loc
                 
