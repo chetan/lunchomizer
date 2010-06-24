@@ -21,11 +21,11 @@
     
     <% if @source != HTML5 then %>
     <script type="text/javascript">
-        if (geo_position_js_simulator) {
-            locations=new Array();
-            locations.push({ coords:{latitude: 40.757912,longitude: -73.9697795},duration:5000 });
-            geo_position_js_simulator.init(locations);
-        }
+        // if (geo_position_js_simulator) {
+        //     locations=new Array();
+        //     locations.push({ coords:{latitude: 40.757912,longitude: -73.9697795},duration:5000 });
+        //     geo_position_js_simulator.init(locations);
+        // }
         
         if (geo_position_js.init()) {
             geo_position_js.getCurrentPosition(success_callback,error_callback,{enableHighAccuracy:true,options:5000});
