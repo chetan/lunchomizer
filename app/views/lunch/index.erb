@@ -19,7 +19,7 @@
     <%= @near_map.header_html if @near_map %>
     <%= @far_map.header_html if @far_map %>
     
-    <% if @source != HTML5 then %>
+    <% if @trygeo %>
     <script type="text/javascript">
         // if (geo_position_js_simulator) {
         //     locations=new Array();

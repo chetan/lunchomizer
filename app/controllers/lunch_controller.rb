@@ -16,6 +16,8 @@ class LunchController < ApplicationController
     
     def index
         
+        @trygeo = true
+        
         if params[:address] and not params[:address].strip.empty? then
             # use given address
             addy = params[:address].strip
@@ -31,6 +33,7 @@ class LunchController < ApplicationController
             session[:geo_location] = Geokit::LatLng.new(params[:lat], params[:lng])
             rev = Geokit::Geocoders::GoogleGeocoder.reverse_geocode(session[:geo_location])
             session[:address] = rev.full_address if rev
+            @trygeo = false
             
         elsif not session[:geo_location] then
             # init from IP
