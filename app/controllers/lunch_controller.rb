@@ -1,5 +1,5 @@
 
-CLOSE = 0.1
+CLOSE = 0.10
 NEAR  = 0.25
 FAR   = 0.45
 
