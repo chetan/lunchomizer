@@ -1,5 +1,8 @@
-config/database.yml
+.bundle
+db/*.sqlite3
+log/*.log
+tmp/**/*
 config/deploy.rb
 config/*map*.yml
 config/initializers/geokit_config.rb
-log/*
+
