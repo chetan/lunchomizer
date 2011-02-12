@@ -1,8 +1,14 @@
 #!/usr/bin/env ruby
-require File.expand_path('../../../config/boot',  __FILE__)
-require RAILS_ROOT + '/config/environment'
 
-RAILS_TMP = RAILS_ROOT + '/tmp'
+ROOT_PATH = File.expand_path('../../..',  __FILE__)
+ENV_PATH  = File.expand_path(ROOT_PATH + '/config/environment',  __FILE__)
+BOOT_PATH = File.expand_path(ROOT_PATH + '/config/boot',  __FILE__)
+APP_PATH  = File.expand_path(ROOT_PATH + '/config/application',  __FILE__)
+RAILS_TMP = ROOT_PATH + '/tmp'
+
+require BOOT_PATH
+require ENV_PATH
+require APP_PATH
 
 require 'rubygems'
 require 'geokit'
