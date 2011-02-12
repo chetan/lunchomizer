@@ -12,6 +12,8 @@ HTML5 = 3
 
 class LunchController < ApplicationController
 
+    layout :choose_layout
+
     include Geokit::IpGeocodeLookup
 
     def index
@@ -84,11 +86,18 @@ class LunchController < ApplicationController
         @far_map = create_map(@far, loc, "far_map", 15) if @far
     end
 
+    private
+
     def create_map(loc, origin, div_name, zoom)
         map = Map.new(div_name, zoom)
         map.route(Marker.new(origin, :label => "You!", :info_bubble => "You!"),
                   Marker.new(loc, :label => loc.name, :info_bubble => (loc.name + "\n" + loc.get_address).gsub("\n", "<br/>")))
         map
+    end
+
+    # use mobile layout for mobile clients (using browser detection)
+    def choose_layout
+        Nomadic.mobile?(request.env) ? "mobile" : "default"
     end
 
 end

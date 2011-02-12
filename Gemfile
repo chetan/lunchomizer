@@ -35,3 +35,4 @@ gem "geokit"
 gem "geokit-rails3"
 gem "json"
 gem "mysql"
+gem "nomadic" # mobile browser detection
