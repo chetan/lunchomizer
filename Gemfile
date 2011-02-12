@@ -32,5 +32,6 @@ gem 'rails', '3.0.4'
 # end
 
 gem "geokit"
+gem "geokit-rails3"
 gem "json"
 gem "mysql"

@@ -19,11 +19,11 @@
         providing all the input data needed to render correctly. %>
     <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
 
-    <%= @close_map.header_html if @close_map %>
-    <%= @near_map.header_html if @near_map %>
-    <%= @far_map.header_html if @far_map %>
+    <%=raw @close_map.header_html if @close_map %>
+    <%=raw @near_map.header_html if @near_map %>
+    <%=raw @far_map.header_html if @far_map %>
 
-    <% if @trygeo %>
+    <% if @trygeo then %>
     <script type="text/javascript">
 
         // use for testing with a pre-set lat/lng
