@@ -3,17 +3,18 @@
 <head>
     <title>the lunch-o-mizer! a random lunch suggestion, every day, at lunchtime</title>
 
-    <%= render "/layouts/head" %>
+    <%= csrf_meta_tag %>
 
 </head>
 <body>
 
-<div class="grid_1">&nbsp;</div>
-<div class="grid_16">
+<%= yield %>
 
-    <%= yield %>
+<%= yield :scripts %>
 
-</div>
+<style type="text/css" media="screen">
+    body { marginl-top: 10px; margin-left: 10px; }
+</style>
 
 </body>
 </html>

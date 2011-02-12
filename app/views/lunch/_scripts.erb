@@ -22,22 +22,30 @@
 
     $(window).load(function() {
 
+        <% if @close_map then %>
         $(".toggle_close").click(function() {
             $("#close_info").toggle();
             <%= @close_map.recenter_html() %>
         });
+        <% end %>
 
+
+        <% if @near_map then %>
         $(".toggle_near").click(function() {
             $("#near_info").toggle();
             <%= @near_map.recenter_html() %>
         });
+        <% end %>
 
+        <% if @far_map then %>
         $(".toggle_far").click(function() {
             $("#far_info").toggle();
             <%= @far_map.recenter_html() %>
         });
+        <% end %>
 
     });
+
 </script>
 
 <% if @trygeo then %>
