@@ -23,6 +23,29 @@
     <%=raw @near_map.header_html if @near_map %>
     <%=raw @far_map.header_html if @far_map %>
 
+    <%# add click handlers for toggling the maps %>
+    <script type="text/javascript" charset="utf-8">
+
+        $(window).load(function() {
+
+            $(".toggle_close").click(function() {
+                $("#close_map").toggle();
+                <%= @close_map.recenter_html() %>
+            });
+
+            $(".toggle_near").click(function() {
+                $("#near_map").toggle();
+                <%= @near_map.recenter_html() %>
+            });
+
+            $(".toggle_far").click(function() {
+                $("#far_map").toggle();
+                <%= @far_map.recenter_html() %>
+            });
+
+        });
+    </script>
+
     <% if @trygeo then %>
     <script type="text/javascript">
 
@@ -61,28 +84,51 @@
         <label for="address">Location:</label> <input id="address" type="text" name="address" value="<%= @address %>"> <input type="submit" value="Change">
     <% end %>
 
+    <br/>
+
+
+    <%# show closest option %>
     <h2>close:
     <% if @close then %>
-        <%= @close.name %> (<%= get_address(@close) %>) <a class="toggle" href="#" onclick="$('#close_map').toggle(); <%= @close_map.recenter_html() %> "><%= image_tag("map_20x20.png", :size => "20x20", :alt => "View map") %></a></h2>
+        <span class="toggle_close">
+        <%= @close.name %> (<%= get_address(@close) %>)
+        <%= image_tag("map_20x20.png", :size => "20x20", :alt => "View map") %>
+        </span>
+        </h2>
         <div id="close_map" style="width:600px;height:400px"></div>
     <% else %>
-        n/a</h2>
+        n/a
+        </h2>
     <% end %>
 
+
+    <%# show somewhat nearby option %>
     <h2>near:
     <% if @near then %>
-        <%= @near.name %> (<%= get_address(@near) %>) <a class="toggle" href="#" onclick="$('#near_map').toggle(); <%= @near_map.recenter_html() %>"><%= image_tag("map_20x20.png", :size => "20x20", :alt => "View map") %></a></h2>
+        <span class="toggle_near">
+        <%= @near.name %> (<%= get_address(@near) %>)
+        <%= image_tag("map_20x20.png", :size => "20x20", :alt => "View map") %>
+        </span>
+        </h2>
         <div id="near_map" style="width:600px;height:400px"></div>
     <% else %>
-        n/a</h2>
+        n/a
+        </h2>
     <% end %>
 
+
+    <%# this option is a bit of a hike %>
     <h2>far:
     <% if @far then %>
-        <%= @far.name %> (<%= get_address(@far) %>) <a class="toggle" href="#" onclick="$('#far_map').toggle(); <%= @far_map.recenter_html() %>"><%= image_tag("map_20x20.png", :size => "20x20", :alt => "View map") %></a></h2>
+        <span class="toggle_far">
+        <%= @far.name %> (<%= get_address(@far) %>)
+        <%= image_tag("map_20x20.png", :size => "20x20", :alt => "View map") %>
+        </span>
+        </h2>
         <div id="far_map" style="width:600px;height:400px"></div>
     <% else %>
-        n/a</h2>
+        n/a
+        </h2>
     <% end %>
 
 </div>
