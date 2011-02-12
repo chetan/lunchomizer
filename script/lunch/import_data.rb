@@ -9,11 +9,12 @@ require 'geokit'
 require 'json'
 require 'pp'
 
+# source: http://spreadsheets.google.com/feeds/list/pp3LMci9UjS4MwJEjJFO_Ww/default/public/values?alt=json
 data = JSON.load(File.new(RAILS_TMP + "/data.json"))
 
 def extract(t)
     ret = {}
-    t.keys.each { |k| 
+    t.keys.each { |k|
         if k =~ /^gsx\$(.+)$/ then
             ret[$1] = t[k]["$t"].strip
         end
