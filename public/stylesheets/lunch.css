@@ -5,8 +5,14 @@ h1 {
 	padding-bottom: 0;
 }
 
-#close_map, #near_map, #far_map {
+#close_info, #near_info, #far_info {
 	display: none;
+	margin-top: -20px;
+}
+
+#close_map, #near_map, #far_map {
+	margin-top: 10px;
+	margin-bottom: 15px;
 }
 
 #location {
@@ -23,5 +29,5 @@ h1 {
 }
 
 .toggle_close, .toggle_near, .toggle_far {
-	cursor: hand;
+	cursor: pointer;
 }

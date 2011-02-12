@@ -29,17 +29,17 @@
         $(window).load(function() {
 
             $(".toggle_close").click(function() {
-                $("#close_map").toggle();
+                $("#close_info").toggle();
                 <%= @close_map.recenter_html() %>
             });
 
             $(".toggle_near").click(function() {
-                $("#near_map").toggle();
+                $("#near_info").toggle();
                 <%= @near_map.recenter_html() %>
             });
 
             $(".toggle_far").click(function() {
-                $("#far_map").toggle();
+                $("#far_info").toggle();
                 <%= @far_map.recenter_html() %>
             });
 
@@ -95,7 +95,10 @@
         <%= image_tag("map_20x20.png", :size => "20x20", :alt => "View map") %>
         </span>
         </h2>
-        <div id="close_map" style="width:600px;height:400px"></div>
+        <div id="close_info">
+            <%= render :partial => "info", :locals => { :info => @close } %>
+            <div id="close_map" style="width:600px;height:400px"></div>
+        </div>
     <% else %>
         n/a
         </h2>
@@ -110,7 +113,10 @@
         <%= image_tag("map_20x20.png", :size => "20x20", :alt => "View map") %>
         </span>
         </h2>
-        <div id="near_map" style="width:600px;height:400px"></div>
+        <div id="near_info">
+            <%= render :partial => "info", :locals => { :info => @near } %>
+            <div id="near_map" style="width:600px;height:400px"></div>
+        </div>
     <% else %>
         n/a
         </h2>
@@ -125,7 +131,10 @@
         <%= image_tag("map_20x20.png", :size => "20x20", :alt => "View map") %>
         </span>
         </h2>
-        <div id="far_map" style="width:600px;height:400px"></div>
+        <div id="far_info">
+            <%= render :partial => "info", :locals => { :info => @far } %>
+            <div id="far_map" style="width:600px;height:400px"></div>
+        </div>
     <% else %>
         n/a
         </h2>

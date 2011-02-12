@@ -1,0 +1,6 @@
+<div class="info">
+<% if not info.phone.blank? %><%= info.phone %><br/><% end %>
+<% if not info.categories.blank? %><%= info.categories.split(",").sort.join(", ").gsub("_", " ") %><br/><% end %>
+<% if not info.description.blank? %><%= info.description.strip %><br/><% end %>
+<% if not info.link.blank? %><a href="<%= info.link %>">see at midtown lunch</a><% end %>
+</div>
