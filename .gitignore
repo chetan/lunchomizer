@@ -6,3 +6,4 @@ config/deploy.rb
 config/*map*.yml
 config/initializers/geokit_config.rb
 config/database.yml
+Gemfile.lock
