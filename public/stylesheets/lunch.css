@@ -1,8 +1,11 @@
 h1 {
 	font-size: 3em;
-	padding-top: 80px;
 	margin-bottom: 0;
 	padding-bottom: 0;
+}
+
+p#pad {
+	padding-top: 80px;
 }
 
 #close_info, #near_info, #far_info {
