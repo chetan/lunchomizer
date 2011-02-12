@@ -15,6 +15,8 @@
     <%= javascript_include_tag "application", "geo" %>
     <%#= javascript_include_tag "geo_position_js_simulator" %>
 
+    <%# sensor=false because for these maps, we don't want to use the user's location sine we are
+        providing all the input data needed to render correctly. %>
     <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
 
     <%= @close_map.header_html if @close_map %>
@@ -23,6 +25,8 @@
 
     <% if @trygeo %>
     <script type="text/javascript">
+
+        // use for testing with a pre-set lat/lng
         // if (geo_position_js_simulator) {
         //     locations=new Array();
         //     locations.push({ coords:{latitude: 40.757912,longitude: -73.9697795},duration:5000 });
