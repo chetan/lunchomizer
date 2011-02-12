@@ -21,3 +21,7 @@ h1 {
 	padding: 3px;
 	width: 375px;
 }
+
+.toggle_close, .toggle_near, .toggle_far {
+	cursor: hand;
+}
